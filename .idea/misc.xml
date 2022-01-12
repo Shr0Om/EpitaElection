@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/activity_game.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/content_game.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/content_main.xml" value="0.22" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/fragment_first.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/fragment_third.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/game_activity.xml" value="0.31040564373897706" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/game_fragment.xml" value="0.34541984732824427" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/user_inflow.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/user_inflow_fragment_character_choice.xml" value="0.33" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/user_inflow_fragment_hello.xml" value="0.2957427536231884" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/layout/user_inflow_fragment_welcome.xml" value="0.25" />
+        <entry key="..\:/Users/tangu/AndroidStudioProjects/EpitaElection/app/src/main/res/menu/menu_main.xml" value="0.20520833333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
