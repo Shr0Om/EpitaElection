@@ -6,68 +6,103 @@
     android:layout_height="match_parent"
     tools:context=".View.CharacterChoice.SecondFragment">
 
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="852dp"
+        android:layout_height="398dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/char_selection"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <ImageButton
         android:id="@+id/macron_button"
-        android:layout_width="171dp"
-        android:layout_height="189dp"
-        android:background="@null"
+        android:layout_width="166dp"
+        android:layout_height="187dp"
+        android:background="@color/black"
+        android:scaleType="center"
         android:src="@drawable/macron"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintHorizontal_bias="0.023"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.031" />
+        app:layout_constraintVertical_bias="0.234" />
 
     <ImageButton
         android:id="@+id/marine_button"
-        android:layout_width="171dp"
-        android:layout_height="189dp"
+        android:layout_width="165dp"
+        android:layout_height="186dp"
+        android:background="@color/black"
+        android:backgroundTint="#000000"
+        android:scaleType="center"
         android:src="@drawable/marine"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintHorizontal_bias="0.345"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.031" />
+        app:layout_constraintVertical_bias="0.241" />
 
     <ImageButton
         android:id="@+id/melenchon_button"
-        android:layout_width="171dp"
-        android:layout_height="189dp"
+        android:layout_width="160dp"
+        android:layout_height="188dp"
+        android:background="@color/black"
+        android:scaleType="center"
         android:src="@drawable/melenchon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.933"
+        app:layout_constraintHorizontal_bias="0.976"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.968" />
+        app:layout_constraintVertical_bias="0.239" />
 
     <ImageButton
         android:id="@+id/zemour_button"
-        android:layout_width="171dp"
-        android:layout_height="189dp"
+        android:layout_width="160dp"
+        android:layout_height="186dp"
+        android:background="@color/black"
+        android:scaleType="center"
         android:src="@drawable/zemour"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        app:layout_constraintHorizontal_bias="0.668"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.968" />
+        app:layout_constraintVertical_bias="0.241" />
 
     <TextView
         android:id="@+id/CharactereChosenTextView"
-        android:layout_width="283dp"
-        android:layout_height="44dp"
+        android:layout_width="276dp"
+        android:layout_height="30dp"
+        android:background="@android:color/holo_orange_light"
         android:text="TextView"
         android:textAlignment="center"
+        android:textColor="@color/black"
         android:textStyle="bold"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.414" />
+        app:layout_constraintVertical_bias="0.867" />
+
+    <ImageView
+        android:id="@+id/CandidatPicture"
+        android:layout_width="124dp"
+        android:layout_height="141dp"
+        android:src="@drawable/pion_macron"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/background"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/ValidateButton"
@@ -77,8 +112,9 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintHorizontal_bias="0.474"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.57" />
+        app:layout_constraintVertical_bias="1.0" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

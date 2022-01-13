@@ -55,6 +55,17 @@ class SecondFragment : Fragment() {
         charactereChosenText.isVisible = true
         validateButton.isVisible = true
 
+        binding.CandidatPicture.isVisible = true
+        if (characterChosen == "Macron"){
+            binding.CandidatPicture.setImageResource(R.drawable.pion_macron)
+        }else if (characterChosen == "THE PEN"){
+            binding.CandidatPicture.setImageResource(R.drawable.pion_lepen)
+        }else if (characterChosen == "Lord Z"){
+            binding.CandidatPicture.setImageResource(R.drawable.pion_zemour)
+        }else if (characterChosen == "TikTok MASTA") {
+            binding.CandidatPicture.setImageResource(R.drawable.pion_melenchon)
+        }
+
         validateButton.setOnClickListener {
             findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
         }

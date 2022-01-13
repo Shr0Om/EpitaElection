@@ -40,7 +40,10 @@ class GameFragment : Fragment(R.layout.game_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.gameBoard.setImageResource(R.drawable.paris_board)
+        binding.ralancerButton.isEnabled = false
+
         init()
         val boutonn = view.findViewById(R.id.game_main_button) as Button
         boutonn.setOnClickListener {
@@ -140,9 +143,11 @@ class GameFragment : Fragment(R.layout.game_fragment) {
 
 
     private fun PlayerTurn() {
+        var relauch = 0
         getMyDe()
         println("Player turn")
 
+        binding.ralancerButton.isEnabled = true
         binding.achatButton.isEnabled = true
         binding.gameMainButton.isEnabled = true
 
@@ -156,6 +161,14 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         }
         binding.buttonBackHome.setOnClickListener{
             leaveParis(mainPlayer)
+        }
+        binding.ralancerButton.setOnClickListener{
+            if (relauch < 3){
+                getMyDe()
+                relauch++
+            } else {
+                binding.gameStatus.text = "Il ne vous restes plus de relance"
+            }
         }
     }
 
