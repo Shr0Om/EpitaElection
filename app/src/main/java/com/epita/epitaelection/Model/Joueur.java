@@ -1,18 +1,31 @@
 package com.epita.epitaelection.Model;
 
+import android.graphics.drawable.Drawable;
+
 public class Joueur {
     private String name;
     private int pv;
     private int vote;
     private int gold;
+    private int imageSrc;
+
+
 
     public Joueur(String name){
         this.name = name;
         this.pv = 100;
         this.vote = 0;
         this.gold = 100;
+        this.imageSrc = 0;
     }
 
+    public int getImageSrc() {
+        return imageSrc;
+    }
+
+    public void setImageSrc(int imageSrc) {
+        this.imageSrc = imageSrc;
+    }
 
     public String getName() {
         return name;

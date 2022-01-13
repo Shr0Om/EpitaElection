@@ -7,11 +7,13 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import android.widget.ToggleButton
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import com.epita.epitaelection.Model.Joueur
 import com.epita.epitaelection.R
 import com.epita.epitaelection.databinding.GameFragmentBinding
 import kotlin.math.floor
+import kotlin.random.Random
 
 
 /**
@@ -24,11 +26,11 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     private var tour = 0
     private var selectedPlayer = "Macron"
     private val playerAvailable = arrayOf("Zemour", "Macron", "Marine", "Melenchon")
+    private val playerImage = arrayOf(R.drawable.pion_zemour, R.drawable.pion_macron, R.drawable.pion_lepen, R.drawable.pion_melenchon)
     private val playerBot = arrayOf(Joueur(""),Joueur(""),Joueur(""))
     private var mainPlayer = Joueur("")
 
     override fun onCreateView(
-
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
@@ -39,16 +41,37 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.gameBoard.setImageResource(R.drawable.paris_board)
-
+        init()
         val boutonn = view.findViewById(R.id.game_main_button) as Button
         boutonn.setOnClickListener {
             boutonn.isEnabled = false
             boutonn.text = "Relancer"
             startGame()
-            //gameLife()
-            //gameEnd()
-
         }
+    }
+
+    private fun init(){
+        botInit()
+        boardInit()
+    }
+    private fun startGame() {
+        val gameBar = view?.findViewById(R.id.game_status) as TextView
+        gameBar.text = "${Starter(MyRandom(4))} commence"
+        gameTour()
+    }
+
+    private fun gameTour() {
+        while (tour != 4) {
+            if (tour % 4 == 3){
+                PlayerTurn()
+            }
+            else{
+                BotTurn(tour % 4)
+            }
+            println(tour)
+            tour++
+        }
+        tour = 0
     }
 
     private fun gameEnd() {
@@ -57,57 +80,47 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         }
     }
 
-    private fun gameLife() {
-        while (true) {
-            tour++
-        }
-    }
-
     private fun botInit(){
         var id_Bot = 0
         for ( i in playerAvailable.indices) {
+
             if (playerAvailable[i] != selectedPlayer) {
                 playerBot[id_Bot] = Joueur(playerAvailable[i])
+                playerBot[id_Bot].imageSrc = playerImage[i]
                 id_Bot++
             }else {
                 mainPlayer = Joueur(playerAvailable[i])
+                mainPlayer.imageSrc = playerImage[i]
             }
+
         }
     }
 
     private fun boardInit(){
         // sale a refactor
-        binding.player3PlayerName.text = playerBot[0].name
+        binding.player1PlayerName.text = playerBot[0].name
         binding.player1PlayerPv.text = """PV: ${playerBot[0].pv}"""
         binding.player1PlayerPf.text = """Vote: ${playerBot[0].vote}"""
-        binding.pionJoueur1.setImageResource(R.drawable.pion_zemour)
+        binding.pionJoueur1.setImageResource(playerBot[0].imageSrc)
 
         binding.player2PlayerName.text = playerBot[1].name
         binding.player2PlayerPv.text = """PV: ${playerBot[1].pv}"""
         binding.player2PlayerPf.text = """Vote: ${playerBot[1].vote}"""
-        binding.pionJoueur2.setImageResource(R.drawable.pion_lepen)
-
+        binding.pionJoueur2.setImageResource(playerBot[1].imageSrc)
 
         binding.player3PlayerName.text = playerBot[2].name
-        binding.player3PlayerPv.text = """PV: ${playerBot[2].pv}"""
-        binding.player3PlayerPf.text = """Vote: ${playerBot[2].vote}"""
-        binding.pionJoueur3.setImageResource(R.drawable.pion_melenchon)
+        binding.player3PlayerPv.text =  "PV: " + playerBot[2].pv
+        binding.player3PlayerPf.text = "Vote: " + playerBot[2].vote
+        binding.pionJoueur3.setImageResource(playerBot[2].imageSrc)
 
 
         binding.mainPlayerName.text = mainPlayer.name
-        binding.mainPlayerPv.text = """PV: ${mainPlayer.pv}"""
-        binding.mainPlayerPf.text = """Vote: ${mainPlayer.vote}"""
-        binding.pionJoueurMain.setImageResource(R.drawable.pion_macron)
-
-
+        binding.mainPlayerPv.text = "PV: " + mainPlayer.pv
+        binding.mainPlayerPf.text = "Vote: " + mainPlayer.vote
+        binding.pionJoueurMain.setImageResource(mainPlayer.imageSrc)
     }
 
-    private fun startGame() {
-        botInit()
-        boardInit()
-        val gameBar = view?.findViewById(R.id.game_status) as TextView
-        gameBar.text = "${Starter(MyRandom(4))} commence"
-    }
+
 
     private fun getMyDe() {
         val De1 = requireView().findViewById<View>(R.id.game_de_1) as ToggleButton
@@ -128,19 +141,61 @@ class GameFragment : Fragment(R.layout.game_fragment) {
 
     private fun PlayerTurn() {
         getMyDe()
+        println("Player turn")
+
+        binding.achatButton.isEnabled = true
+        binding.gameMainButton.isEnabled = true
+
+        binding.gameStatus.text = "A toi de jouer"
+
+        binding.gameMainButton.setOnClickListener{
+            gameTour()
+        }
+        binding.TakeParisButton.setOnClickListener{
+            takeParis(mainPlayer)
+        }
+        binding.buttonBackHome.setOnClickListener{
+            leaveParis(mainPlayer)
+        }
+    }
+
+    private fun leaveParis(joueur: Joueur){
+        binding.pionJoueurMain.isClickable = false
+        binding.TakeParisButton.isClickable = true
+
+        binding.pionPresident.isVisible = false
+        binding.pionJoueurMain.setImageResource(joueur.imageSrc)
+
+    }
+
+    private fun takeParis(joueur: Joueur){
+        binding.pionPresident.isVisible = true
+        binding.TakeParisButton.isClickable = false
+        binding.pionJoueurMain.isClickable = true
+
+            binding.pionPresident.setImageResource(joueur.imageSrc)
+        binding.pionJoueurMain.setImageResource(R.drawable.away)
+    }
+
+    private fun BotTurn(id: Int){
+        binding.gameStatus.text = playerBot[id].name + " joue"
+        getMyDe()
+        println("sleep")
+        Thread.sleep(2000)
+        println("stop sleep")
     }
 
     private fun MyRandom(max: Int): Int {
-        return floor(Math.random() * (max - 1 + 1) + 1).toInt()
+        return Random.nextInt(0, 4)
     }
 
     private fun Starter(number: Int): String? {
-        tour = number;
+        tour = number
         when (number) {
-            1 -> return "TikTok Masta"
-            2 -> return "Le Z"
-            3 -> return "MACRON"
-            4 -> return "LE PEN"
+            0 -> return "TikTok Masta"
+            1 -> return "Le Z"
+            2 -> return "MACRON"
+            3 -> return "LE PEN"
         }
         return "no Data"
     }

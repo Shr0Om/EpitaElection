@@ -199,6 +199,19 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.65" />
 
+    <Button
+        android:id="@+id/achat_button"
+        android:layout_width="65dp"
+        android:layout_height="58dp"
+        android:enabled="false"
+        android:text="BUY"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.136"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.946" />
+
     <TextView
         android:id="@+id/player_1_player_pf"
         android:layout_width="wrap_content"
@@ -237,8 +250,8 @@
 
     <TextView
         android:id="@+id/main_player_pv"
-        android:layout_width="133dp"
-        android:layout_height="19dp"
+        android:layout_width="53dp"
+        android:layout_height="21dp"
         android:text="PV:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -249,15 +262,27 @@
 
     <TextView
         android:id="@+id/main_player_pf"
-        android:layout_width="133dp"
-        android:layout_height="19dp"
+        android:layout_width="53dp"
+        android:layout_height="17dp"
         android:text="Vote:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.023"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.931" />
+        app:layout_constraintVertical_bias="0.901" />
+
+    <TextView
+        android:id="@+id/main_player_pf2"
+        android:layout_width="53dp"
+        android:layout_height="17dp"
+        android:text="P:"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.023"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.944" />
 
     <TextView
         android:id="@+id/main_player_name"
@@ -342,6 +367,31 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.212" />
 
+    <ImageButton
+        android:id="@+id/TakeParisButton"
+        android:layout_width="119dp"
+        android:layout_height="84dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/batiment"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.418" />
+
+    <ImageButton
+        android:id="@+id/buttonBackHome"
+        android:layout_width="85dp"
+        android:layout_height="62dp"
+        android:background="@drawable/house"
+        android:scaleType="fitXY"
+        android:src="@drawable/house"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.633" />
+
     <ImageView
         android:id="@+id/pion_joueur_main"
         android:layout_width="68dp"
@@ -352,6 +402,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.635" />
+
+    <ImageView
+        android:id="@+id/pion_president"
+        android:layout_width="48dp"
+        android:layout_height="50dp"
+        android:src="@drawable/ic_launcher_foreground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.499"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.432" />
 
     <ImageView
         android:id="@+id/pion_joueur3"
