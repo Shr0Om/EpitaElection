@@ -1,18 +1,21 @@
 package com.epita.epitaelection.View.Game
 
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.Switch
 import android.widget.TextView
-import android.widget.ToggleButton
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import com.epita.epitaelection.Model.Joueur
+import com.epita.epitaelection.Model.Main
 import com.epita.epitaelection.R
 import com.epita.epitaelection.databinding.GameFragmentBinding
-import kotlin.math.floor
 import kotlin.random.Random
 
 
@@ -20,15 +23,24 @@ import kotlin.random.Random
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
 class GameFragment : Fragment(R.layout.game_fragment) {
+    val args: GameFragmentArgs by navArgs()
 
     private var _binding: GameFragmentBinding? = null
     private val binding get() = _binding!!
     private var tour = 0
-    private var selectedPlayer = "Macron"
+    private var selectedPlayer = ""
     private val playerAvailable = arrayOf("Zemour", "Macron", "Marine", "Melenchon")
-    private val playerImage = arrayOf(R.drawable.pion_zemour, R.drawable.pion_macron, R.drawable.pion_lepen, R.drawable.pion_melenchon)
-    private val playerBot = arrayOf(Joueur(""),Joueur(""),Joueur(""))
+    private val playerImage = arrayOf(
+        R.drawable.pion_zemour,
+        R.drawable.pion_macron,
+        R.drawable.pion_lepen,
+        R.drawable.pion_melenchon
+    )
+    private val playerBot = arrayOf(Joueur(""), Joueur(""), Joueur(""))
     private var mainPlayer = Joueur("")
+    private var handMainPlayer = Main()
+
+    private var PlayerInTheMiddle = Joueur("")
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,35 +52,52 @@ class GameFragment : Fragment(R.layout.game_fragment) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        selectedPlayer = args.character
         binding.gameBoard.setImageResource(R.drawable.paris_board)
         binding.ralancerButton.isEnabled = false
-
         init()
         val boutonn = view.findViewById(R.id.game_main_button) as Button
         boutonn.setOnClickListener {
             boutonn.isEnabled = false
-            boutonn.text = "Relancer"
+            boutonn.text = "Passer"
             startGame()
         }
     }
 
-    private fun init(){
+    private fun gainPoint() {
+        if (PlayerInTheMiddle != Joueur("")) {
+            if (PlayerInTheMiddle.name == playerBot[0].name) {
+                playerBot[0].vote = playerBot[0].vote + 10
+            }
+            if (PlayerInTheMiddle.name == playerBot[1].name) {
+                playerBot[1].vote = playerBot[1].vote + 10
+            }
+            if (PlayerInTheMiddle.name == playerBot[2].name) {
+                playerBot[2].vote = playerBot[2].vote + 10
+            }
+            if (PlayerInTheMiddle.name == mainPlayer.name) {
+                mainPlayer.vote = mainPlayer.vote + 10
+            }
+        }
+        boardReload()
+    }
+
+    private fun init() {
         botInit()
         boardInit()
     }
+
     private fun startGame() {
         val gameBar = view?.findViewById(R.id.game_status) as TextView
-        gameBar.text = "${Starter(MyRandom(4))} commence"
+        gameBar.text = "${Starter(MyRandom(0, 4))} commence"
         gameTour()
     }
 
     private fun gameTour() {
         while (tour != 4) {
-            if (tour % 4 == 3){
+            if (tour % 4 == 3) {
                 PlayerTurn()
-            }
-            else{
+            } else {
                 BotTurn(tour % 4)
             }
             println(tour)
@@ -78,20 +107,22 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     }
 
     private fun gameEnd() {
-        val boutonn: Button = view?.findViewById(R.id.game_main_button) as Button
-        boutonn.setOnClickListener {
-        }
+        binding.ralancerButton.isEnabled = false
+        binding.gameMainButton.isEnabled = false
+        binding.achatButton.isEnabled = false
+        binding.TakeParisButton.isEnabled = false
+        binding.buttonBackHome.isEnabled = false
     }
 
-    private fun botInit(){
+    private fun botInit() {
         var id_Bot = 0
-        for ( i in playerAvailable.indices) {
+        for (i in playerAvailable.indices) {
 
             if (playerAvailable[i] != selectedPlayer) {
                 playerBot[id_Bot] = Joueur(playerAvailable[i])
                 playerBot[id_Bot].imageSrc = playerImage[i]
                 id_Bot++
-            }else {
+            } else {
                 mainPlayer = Joueur(playerAvailable[i])
                 mainPlayer.imageSrc = playerImage[i]
             }
@@ -99,48 +130,155 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         }
     }
 
-    private fun boardInit(){
+    private fun boardReload() {
+        binding.player1PlayerPv.text = playerBot[0].pv.toString()
+        binding.player1PlayerPf.text = playerBot[0].vote.toString()
+        binding.player1PlayerMoney.text = playerBot[0].gold.toString()
+
+        binding.player2PlayerPv.text = playerBot[1].pv.toString()
+        binding.player2PlayerPf.text = playerBot[1].vote.toString()
+        binding.player2PlayerMoney.text = playerBot[1].gold.toString()
+
+        binding.player3PlayerPv.text = playerBot[2].pv.toString()
+        binding.player3PlayerPf.text = playerBot[2].vote.toString()
+        binding.player3PlayerMoney.text = playerBot[2].gold.toString()
+
+        binding.mainPlayerPv.text = mainPlayer.pv.toString()
+        binding.mainPlayerPf.text = mainPlayer.vote.toString()
+        binding.mainPlayerMoney.text = mainPlayer.gold.toString()
+    }
+
+    private fun boardInit() {
         // sale a refactor
         binding.player1PlayerName.text = playerBot[0].name
-        binding.player1PlayerPv.text = """PV: ${playerBot[0].pv}"""
-        binding.player1PlayerPf.text = """Vote: ${playerBot[0].vote}"""
+        binding.player1PlayerPv.text = playerBot[0].pv.toString()
+        binding.player1PlayerPf.text = playerBot[0].vote.toString()
+        binding.player1PlayerMoney.text = playerBot[0].gold.toString()
         binding.pionJoueur1.setImageResource(playerBot[0].imageSrc)
 
         binding.player2PlayerName.text = playerBot[1].name
-        binding.player2PlayerPv.text = """PV: ${playerBot[1].pv}"""
-        binding.player2PlayerPf.text = """Vote: ${playerBot[1].vote}"""
+        binding.player2PlayerPv.text = playerBot[1].pv.toString()
+        binding.player2PlayerPf.text = playerBot[1].vote.toString()
+        binding.player2PlayerMoney.text = playerBot[1].gold.toString()
         binding.pionJoueur2.setImageResource(playerBot[1].imageSrc)
 
         binding.player3PlayerName.text = playerBot[2].name
-        binding.player3PlayerPv.text =  "PV: " + playerBot[2].pv
-        binding.player3PlayerPf.text = "Vote: " + playerBot[2].vote
+        binding.player3PlayerPv.text = playerBot[2].pv.toString()
+        binding.player3PlayerPf.text = playerBot[2].vote.toString()
+        binding.player3PlayerMoney.text = playerBot[2].gold.toString()
         binding.pionJoueur3.setImageResource(playerBot[2].imageSrc)
 
 
         binding.mainPlayerName.text = mainPlayer.name
-        binding.mainPlayerPv.text = "PV: " + mainPlayer.pv
-        binding.mainPlayerPf.text = "Vote: " + mainPlayer.vote
+        binding.mainPlayerPv.text = mainPlayer.pv.toString()
+        binding.mainPlayerPf.text = mainPlayer.vote.toString()
+        binding.mainPlayerMoney.text = mainPlayer.gold.toString()
         binding.pionJoueurMain.setImageResource(mainPlayer.imageSrc)
     }
 
 
-
-    private fun getMyDe() {
-        val De1 = requireView().findViewById<View>(R.id.game_de_1) as ToggleButton
-        val De2 = requireView().findViewById<View>(R.id.game_de_2) as ToggleButton
-        val De3 = requireView().findViewById<View>(R.id.game_de_3) as ToggleButton
-        val De4 = requireView().findViewById<View>(R.id.game_de_4) as ToggleButton
-        val De5 = requireView().findViewById<View>(R.id.game_de_5) as ToggleButton
-        val De6 = requireView().findViewById<View>(R.id.game_de_6) as ToggleButton
-
-        De1.text = MyRandom(6).toString()
-        De2.text = MyRandom(6).toString()
-        De3.text = MyRandom(6).toString()
-        De4.text = MyRandom(6).toString()
-        De5.text = MyRandom(6).toString()
-        De6.text = MyRandom(6).toString()
+    private fun getDePicture(id: Int): Int {
+        when (id) {
+            1 -> return R.drawable.de1
+            2 -> return R.drawable.de2
+            3 -> return R.drawable.de3
+            4 -> return R.drawable.de4
+            5 -> return R.drawable.de5
+            6 -> return R.drawable.de6
+        }
+        return R.drawable.de1
     }
 
+    private fun getMyDe() {
+        binding.gameDe1.setImageResource(getDePicture(MyRandom(1, 7)))
+        binding.gameDe2.setImageResource(getDePicture(MyRandom(1, 7)))
+        binding.gameDe3.setImageResource(getDePicture(MyRandom(1, 7)))
+        binding.gameDe4.setImageResource(getDePicture(MyRandom(1, 7)))
+        binding.gameDe5.setImageResource(getDePicture(MyRandom(1, 7)))
+        binding.gameDe6.setImageResource(getDePicture(MyRandom(1, 7)))
+    }
+
+
+    private fun CheckIfWin() {
+        gainPoint()
+        if (playerBot[0].vote >= 60) {
+            gameEnd()
+            binding.gameStatus.text = playerBot[0].name + " à gagné"
+        } else if (playerBot[1].vote >= 60) {
+            gameEnd()
+            binding.gameStatus.text = playerBot[1].name + " à gagné"
+        } else if (playerBot[2].vote >= 60) {
+            gameEnd()
+            binding.gameStatus.text = playerBot[2].name + " à gagné"
+        } else if (mainPlayer.vote >= 60) {
+            gameEnd()
+            binding.gameStatus.text = mainPlayer.name + " à gagné"
+        } else {
+            gameTour()
+        }
+
+    }
+
+    private fun achat(joueur: Joueur) {
+        if (joueur.gold >= 20) {
+            if (handMainPlayer.card1 == 0) {
+                giveCard(binding.gameCard1)
+                joueur.gold = joueur.gold - 20
+                handMainPlayer.card1 = 1
+                boardReload()
+            } else if (handMainPlayer.card2 == 0) {
+                giveCard(binding.gameCard2)
+                joueur.gold = joueur.gold - 20
+                handMainPlayer.card2 = 1
+                boardReload()
+            } else if (handMainPlayer.card3 == 0) {
+                giveCard(binding.gameCard3)
+                joueur.gold = joueur.gold - 20
+                handMainPlayer.card3 = 1
+                boardReload()
+            } else if (handMainPlayer.card4 == 0) {
+                giveCard(binding.gameCard4)
+                joueur.gold = joueur.gold - 20
+                handMainPlayer.card4 = 1
+                boardReload()
+            } else if (handMainPlayer.card5 == 0) {
+                giveCard(binding.gameCard5)
+                joueur.gold = joueur.gold - 20
+                handMainPlayer.card5 = 1
+                boardReload()
+            } else if (handMainPlayer.card6 == 0) {
+                giveCard(binding.gameCard6)
+                joueur.gold = joueur.gold - 20
+                handMainPlayer.card6 = 1
+                boardReload()
+            } else{
+                binding.gameStatus.text = "Trop de carte"
+            }
+        }
+        else {
+            binding.gameStatus.text = "Trop pauvre il vous faut 20 gold"
+        }
+    }
+
+    private fun getRandomCard(): Int {
+        when (MyRandom(1, 11)) {
+            1 -> return R.drawable.card1
+            2 -> return R.drawable.card2
+            3 -> return R.drawable.card3
+            4 -> return R.drawable.card4
+            5 -> return R.drawable.card5
+            6 -> return R.drawable.card6
+            7 -> return R.drawable.card7
+            8 -> return R.drawable.card8
+            9 -> return R.drawable.card9
+            10 -> return R.drawable.card10
+        }
+        return R.drawable.card10
+    }
+
+    private fun giveCard(image: ImageView) {
+        image.setImageResource(getRandomCard())
+    }
 
     private fun PlayerTurn() {
         var relauch = 0
@@ -153,17 +291,20 @@ class GameFragment : Fragment(R.layout.game_fragment) {
 
         binding.gameStatus.text = "A toi de jouer"
 
-        binding.gameMainButton.setOnClickListener{
-            gameTour()
+        binding.gameMainButton.setOnClickListener {
+            CheckIfWin()
         }
-        binding.TakeParisButton.setOnClickListener{
+        binding.TakeParisButton.setOnClickListener {
             takeParis(mainPlayer)
         }
-        binding.buttonBackHome.setOnClickListener{
+        binding.achatButton.setOnClickListener {
+            achat(mainPlayer)
+        }
+        binding.buttonBackHome.setOnClickListener {
             leaveParis(mainPlayer)
         }
-        binding.ralancerButton.setOnClickListener{
-            if (relauch < 3){
+        binding.ralancerButton.setOnClickListener {
+            if (relauch < 3) {
                 getMyDe()
                 relauch++
             } else {
@@ -172,7 +313,7 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         }
     }
 
-    private fun leaveParis(joueur: Joueur){
+    private fun leaveParis(joueur: Joueur) {
         binding.pionJoueurMain.isClickable = false
         binding.TakeParisButton.isClickable = true
 
@@ -181,16 +322,18 @@ class GameFragment : Fragment(R.layout.game_fragment) {
 
     }
 
-    private fun takeParis(joueur: Joueur){
+    private fun takeParis(joueur: Joueur) {
         binding.pionPresident.isVisible = true
         binding.TakeParisButton.isClickable = false
         binding.pionJoueurMain.isClickable = true
 
-            binding.pionPresident.setImageResource(joueur.imageSrc)
+        PlayerInTheMiddle = joueur
+
+        binding.pionPresident.setImageResource(joueur.imageSrc)
         binding.pionJoueurMain.setImageResource(R.drawable.away)
     }
 
-    private fun BotTurn(id: Int){
+    private fun BotTurn(id: Int) {
         binding.gameStatus.text = playerBot[id].name + " joue"
         getMyDe()
         println("sleep")
@@ -198,8 +341,8 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         println("stop sleep")
     }
 
-    private fun MyRandom(max: Int): Int {
-        return Random.nextInt(0, 4)
+    private fun MyRandom(min: Int, max: Int): Int {
+        return Random.nextInt(min, max)
     }
 
     private fun Starter(number: Int): String? {
@@ -213,9 +356,6 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         return "no Data"
     }
 
-    fun rotationStart() {
-        val rotation = MyRandom(4)
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()

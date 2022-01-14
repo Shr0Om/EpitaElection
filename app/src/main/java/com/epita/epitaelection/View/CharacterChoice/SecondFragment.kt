@@ -11,6 +11,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.navigation.fragment.findNavController
 import com.epita.epitaelection.R
+import com.epita.epitaelection.View.Game.GameFragment
 import com.epita.epitaelection.databinding.UserInflowFragmentCharacterChoiceBinding
 
 /**
@@ -20,6 +21,7 @@ class SecondFragment : Fragment() {
 
     private var _binding: UserInflowFragmentCharacterChoiceBinding? = null
     private val binding get() = _binding!!
+    private var dataSend = ""
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,16 +60,21 @@ class SecondFragment : Fragment() {
         binding.CandidatPicture.isVisible = true
         if (characterChosen == "Macron"){
             binding.CandidatPicture.setImageResource(R.drawable.pion_macron)
+            dataSend = "Macron"
         }else if (characterChosen == "THE PEN"){
             binding.CandidatPicture.setImageResource(R.drawable.pion_lepen)
+            dataSend = "Marine"
         }else if (characterChosen == "Lord Z"){
             binding.CandidatPicture.setImageResource(R.drawable.pion_zemour)
+            dataSend = "Zemour"
         }else if (characterChosen == "TikTok MASTA") {
             binding.CandidatPicture.setImageResource(R.drawable.pion_melenchon)
+            dataSend = "Melenchon"
         }
 
         validateButton.setOnClickListener {
-            findNavController().navigate(R.id.action_SecondFragment_to_gameFragment)
+            val action = SecondFragmentDirections.actionSecondFragmentToGameFragment(dataSend)
+            findNavController().navigate(action)
         }
     }
 

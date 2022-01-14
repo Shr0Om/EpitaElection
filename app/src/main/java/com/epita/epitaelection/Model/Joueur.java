@@ -15,7 +15,7 @@ public class Joueur {
         this.name = name;
         this.pv = 100;
         this.vote = 0;
-        this.gold = 100;
+        this.gold = 140;
         this.imageSrc = 0;
     }
 

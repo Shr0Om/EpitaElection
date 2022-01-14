@@ -28,5 +28,9 @@
         android:id="@+id/gameFragment"
         android:name="com.epita.epitaelection.View.Game.GameFragment"
         android:label="game_fragment"
-        tools:layout="@layout/game_fragment" />
+        tools:layout="@layout/game_fragment">
+        <argument
+            android:name="character"
+            app:argType="string" />
+    </fragment>
 </navigation>
