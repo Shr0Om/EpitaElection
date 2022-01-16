@@ -209,9 +209,9 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         ApplyHeal(sender, deHeal)
         ApplyEnergie(sender, deEnergie)
         ApplyPoint(sender, de1, de2, de3)
-
-
     }
+
+
     private fun ApplyEnergie(sender: Joueur, energie: Int){}
 
     private fun ApplyPoint(sender: Joueur, de1: Int, de2: Int, de3: Int){
@@ -262,7 +262,23 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     }
 
 
+    private fun ResetBackDe(){
+        binding.gameDe1.setBackgroundColor(0xFFFFFF)
+        binding.gameDe1.contentDescription = ""
+        binding.gameDe2.setBackgroundColor(0xFFFFFF)
+        binding.gameDe2.contentDescription = ""
+        binding.gameDe3.setBackgroundColor(0xFFFFFF)
+        binding.gameDe3.contentDescription = ""
+        binding.gameDe4.setBackgroundColor(0xFFFFFF)
+        binding.gameDe4.contentDescription = ""
+        binding.gameDe5.setBackgroundColor(0xFFFFFF)
+        binding.gameDe5.contentDescription = ""
+        binding.gameDe6.setBackgroundColor(0xFFFFFF)
+        binding.gameDe6.contentDescription = ""
+    }
+
     private fun CheckIfWin() {
+        ResetBackDe()
         ApplyDe(mainPlayer)
         gainPoint()
         if (playerBot[0].vote >= 60) {
