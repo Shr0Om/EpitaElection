@@ -15,6 +15,7 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.epita.epitaelection.Model.De
 import com.epita.epitaelection.Model.Joueur
 import com.epita.epitaelection.Model.Main
 import com.epita.epitaelection.R
@@ -40,6 +41,7 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         R.drawable.pion_lepen,
         R.drawable.pion_melenchon
     )
+    private val deStorage = arrayOf(De(),De(),De(),De(),De(),De())
     private val playerBot = arrayOf(Joueur(""), Joueur(""), Joueur(""))
     private var mainPlayer = Joueur("")
     private var handMainPlayer = Main()
@@ -185,29 +187,83 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     }
 
 
-    private fun getDePicture(id: Int): Int {
-        when (id) {
-            1 -> return R.drawable.de1
-            2 -> return R.drawable.de2
-            3 -> return R.drawable.de3
-            4 -> return R.drawable.de4
-            5 -> return R.drawable.de5
-            6 -> return R.drawable.de6
+    private fun ApplyDe(sender: Joueur){
+        var deDamage = 0
+        var deHeal = 0
+        var deEnergie = 0
+        var de1 = 0
+        var de2 = 0
+        var de3 = 0
+        for (i in deStorage){
+            if (i.face == 1){ de1 ++}
+            if (i.face == 2){ de2 ++}
+            if (i.face == 3){ de3 ++}
+            if (i.face == 4){ deEnergie ++}
+            if (i.face == 5){ deDamage ++}
+            if (i.face == 6){ deHeal ++}
         }
-        return R.drawable.de1
+        println("damage: " + deDamage)
+        println("Heal: " + deHeal)
+        println("Energie: " + deEnergie)
+        ApplyDamage(sender, deDamage)
+        ApplyHeal(sender, deHeal)
+        ApplyEnergie(sender, deEnergie)
+        ApplyPoint(sender, de1, de2, de3)
+
+
+    }
+    private fun ApplyEnergie(sender: Joueur, energie: Int){}
+
+    private fun ApplyPoint(sender: Joueur, de1: Int, de2: Int, de3: Int){
+        if (de1 > 1){sender.gold = sender.gold + de1}
+        if (de2 > 1){sender.gold = sender.gold + de2}
+        if (de3 > 1){sender.gold = sender.gold + de3}
+    }
+
+    private fun ApplyHeal(sender: Joueur, heal: Int){
+        if (sender.pv > 0){
+            sender.pv = sender.pv + heal
+        }
+    }
+
+    private fun ApplyDamage(sender: Joueur, damage: Int){
+        if(sender.name == PlayerInTheMiddle.name){
+            if(sender.name != playerBot[0].name){ if(playerBot[0].pv >= damage ){playerBot[0].pv = playerBot[0].pv - damage} }
+            if(sender.name != playerBot[1].name){ if(playerBot[1].pv >= damage ){playerBot[1].pv = playerBot[1].pv - damage} }
+            if(sender.name != playerBot[2].name){ if(playerBot[2].pv >= damage ){playerBot[2].pv = playerBot[2].pv - damage} }
+            if(sender.name != mainPlayer.name){ if(mainPlayer.pv >= damage ){mainPlayer.pv = mainPlayer.pv - damage} }
+        } else if (PlayerInTheMiddle.name != null || PlayerInTheMiddle.name != ""){
+            if(PlayerInTheMiddle.pv >= damage ){PlayerInTheMiddle.pv = PlayerInTheMiddle.pv - damage}
+        }
+    }
+
+
+
+    private fun getDePicture(id: Int, de: De): Int {
+        de.face = id
+        when (id) {
+            1 -> de.drawable = R.drawable.de1
+            2 -> de.drawable = R.drawable.de2
+            3 -> de.drawable = R.drawable.de3
+            4 -> de.drawable = R.drawable.de4
+            5 -> de.drawable = R.drawable.de5
+            6 -> de.drawable = R.drawable.de6
+        }
+        return de.drawable
     }
 
     private fun getMyDe() {
-        binding.gameDe1.setImageResource(getDePicture(MyRandom(1, 7)))
-        binding.gameDe2.setImageResource(getDePicture(MyRandom(1, 7)))
-        binding.gameDe3.setImageResource(getDePicture(MyRandom(1, 7)))
-        binding.gameDe4.setImageResource(getDePicture(MyRandom(1, 7)))
-        binding.gameDe5.setImageResource(getDePicture(MyRandom(1, 7)))
-        binding.gameDe6.setImageResource(getDePicture(MyRandom(1, 7)))
+        binding.gameDe1.setImageResource(getDePicture(MyRandom(1, 7),deStorage[0]))
+        binding.gameDe2.setImageResource(getDePicture(MyRandom(1, 7),deStorage[1]))
+        binding.gameDe3.setImageResource(getDePicture(MyRandom(1, 7),deStorage[2]))
+        binding.gameDe4.setImageResource(getDePicture(MyRandom(1, 7),deStorage[3]))
+        binding.gameDe5.setImageResource(getDePicture(MyRandom(1, 7),deStorage[4]))
+        binding.gameDe6.setImageResource(getDePicture(MyRandom(1, 7),deStorage[5]))
     }
 
 
     private fun CheckIfWin() {
+        ApplyDe(mainPlayer)
         gainPoint()
         if (playerBot[0].vote >= 60) {
             gameEnd()
@@ -288,11 +344,11 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     }
 
     private fun PlayerTurn() {
+        println("Player turn")
         var relauch = 0
         getMyDe()
         initListenerOnDe()
         initListenerOnDe()
-        println("Player turn")
 
         binding.achatButton.isEnabled = true
         binding.gameMainButton.isEnabled = true
@@ -332,39 +388,39 @@ class GameFragment : Fragment(R.layout.game_fragment) {
 
     private fun rotateDeColor(imageView: ImageView){
             if (imageView.contentDescription == "" || imageView.contentDescription == null){
-                imageView.setBackgroundColor(0xFF00FF00.toInt());
+                imageView.setBackgroundColor(0xFF00FF00.toInt())
                 imageView.contentDescription = "pressed"
                 binding.ralancerButton.isEnabled = true
             }else{
-                imageView.setBackgroundColor(0xFFFFFF);
-                imageView.contentDescription = "";
+                imageView.setBackgroundColor(0xFFFFFF)
+                imageView.contentDescription = ""
             }
         }
 
 
     private fun reGetMyDe(){
         if (binding.gameDe1.contentDescription == "pressed"){
-            binding.gameDe1.setImageResource(getDePicture(MyRandom(1, 7)))
+            binding.gameDe1.setImageResource(getDePicture(MyRandom(1, 7),deStorage[0]))
             rotateDeColor(binding.gameDe1)
         }
         if (binding.gameDe2.contentDescription == "pressed"){
-            binding.gameDe2.setImageResource(getDePicture(MyRandom(1, 7)))
+            binding.gameDe2.setImageResource(getDePicture(MyRandom(1, 7),deStorage[1]))
             rotateDeColor(binding.gameDe2)
         }
         if (binding.gameDe3.contentDescription == "pressed"){
-            binding.gameDe3.setImageResource(getDePicture(MyRandom(1, 7)))
+            binding.gameDe3.setImageResource(getDePicture(MyRandom(1, 7),deStorage[2]))
             rotateDeColor(binding.gameDe3)
         }
         if (binding.gameDe4.contentDescription == "pressed"){
-            binding.gameDe4.setImageResource(getDePicture(MyRandom(1, 7)))
+            binding.gameDe4.setImageResource(getDePicture(MyRandom(1, 7),deStorage[3]))
             rotateDeColor(binding.gameDe4)
         }
         if (binding.gameDe5.contentDescription == "pressed"){
-            binding.gameDe5.setImageResource(getDePicture(MyRandom(1, 7)))
+            binding.gameDe5.setImageResource(getDePicture(MyRandom(1, 7),deStorage[4]))
             rotateDeColor(binding.gameDe5)
         }
         if (binding.gameDe6.contentDescription == "pressed"){
-            binding.gameDe6.setImageResource(getDePicture(MyRandom(1, 7)))
+            binding.gameDe6.setImageResource(getDePicture(MyRandom(1, 7),deStorage[5]))
             rotateDeColor(binding.gameDe6)
         }
     }
