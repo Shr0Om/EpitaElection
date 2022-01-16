@@ -90,7 +90,7 @@
         android:id="@+id/game_de_6"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@color/purple_500"
+        android:background="@color/white"
         android:scaleType="fitXY"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
