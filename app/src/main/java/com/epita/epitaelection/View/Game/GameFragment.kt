@@ -1,5 +1,7 @@
 package com.epita.epitaelection.View.Game
 
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -283,9 +285,10 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     private fun PlayerTurn() {
         var relauch = 0
         getMyDe()
+        initListenerOnDe()
+        initListenerOnDe()
         println("Player turn")
 
-        binding.ralancerButton.isEnabled = true
         binding.achatButton.isEnabled = true
         binding.gameMainButton.isEnabled = true
 
@@ -305,11 +308,59 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         }
         binding.ralancerButton.setOnClickListener {
             if (relauch < 3) {
-                getMyDe()
+                reGetMyDe()
                 relauch++
             } else {
                 binding.gameStatus.text = "Il ne vous restes plus de relance"
             }
+        }
+    }
+    private fun initListenerOnDe(){
+        binding.gameDe1.setOnClickListener{rotateDeColor(binding.gameDe1)}
+        binding.gameDe2.setOnClickListener{rotateDeColor(binding.gameDe2)}
+        binding.gameDe3.setOnClickListener{rotateDeColor(binding.gameDe3)}
+        binding.gameDe4.setOnClickListener{rotateDeColor(binding.gameDe4)}
+        binding.gameDe5.setOnClickListener{rotateDeColor(binding.gameDe5)}
+        binding.gameDe6.setOnClickListener{rotateDeColor(binding.gameDe6)}
+    }
+
+
+    private fun rotateDeColor(imageView: ImageView){
+            if (imageView.contentDescription == "" || imageView.contentDescription == null){
+                imageView.setBackgroundColor(0xFF00FF00.toInt());
+                imageView.contentDescription = "pressed"
+                binding.ralancerButton.isEnabled = true
+            }else{
+                imageView.setBackgroundColor(0xFFFFFF);
+                imageView.contentDescription = "";
+            }
+        }
+
+
+    private fun reGetMyDe(){
+        if (binding.gameDe1.contentDescription == "pressed"){
+            binding.gameDe1.setImageResource(getDePicture(MyRandom(1, 7)))
+            rotateDeColor(binding.gameDe1)
+        }
+        if (binding.gameDe2.contentDescription == "pressed"){
+            binding.gameDe2.setImageResource(getDePicture(MyRandom(1, 7)))
+            rotateDeColor(binding.gameDe2)
+        }
+        if (binding.gameDe3.contentDescription == "pressed"){
+            binding.gameDe3.setImageResource(getDePicture(MyRandom(1, 7)))
+            rotateDeColor(binding.gameDe3)
+        }
+        if (binding.gameDe4.contentDescription == "pressed"){
+            binding.gameDe4.setImageResource(getDePicture(MyRandom(1, 7)))
+            rotateDeColor(binding.gameDe4)
+        }
+        if (binding.gameDe5.contentDescription == "pressed"){
+            binding.gameDe5.setImageResource(getDePicture(MyRandom(1, 7)))
+            rotateDeColor(binding.gameDe5)
+        }
+        if (binding.gameDe6.contentDescription == "pressed"){
+            binding.gameDe6.setImageResource(getDePicture(MyRandom(1, 7)))
+            rotateDeColor(binding.gameDe6)
         }
     }
 
