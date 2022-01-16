@@ -1,5 +1,18 @@
 # EPITA ELECTION
 
+## EPITA Login
+  ramy.el-behedy
+  https://cri.epita.fr/users/ramy.el-behedy/
+  
+  landry.monga
+  https://cri.epita.fr/users/landry.monga/
+  
+  tanguy.paillard
+  https://cri.epita.fr/users/tanguy.paillard/
+  
+  kevin.po
+  https://cri.epita.fr/users/kevin.po/
+
 This project is an EPITA project for advanced android Class.
 Code is made just for work , no algo and code design used here.
 ## Installation
