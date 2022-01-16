@@ -10,15 +10,18 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EpitaElection">
         <activity
+            android:name=".WinView"
+            android:exported="false" />
+        <activity
             android:name=".View.Game.Game"
             android:exported="false"
             android:label="@string/title_activity_game"
             android:theme="@style/Theme.EpitaElection.NoActionBar" />
         <activity
-            android:screenOrientation="landscape"
             android:name=".View.CharacterChoice.MainActivity"
             android:exported="true"
             android:label="@string/app_name"
+            android:screenOrientation="landscape"
             android:theme="@style/Theme.EpitaElection.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

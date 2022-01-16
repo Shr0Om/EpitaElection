@@ -13,10 +13,12 @@ import android.widget.Switch
 import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.epita.epitaelection.Model.Joueur
 import com.epita.epitaelection.Model.Main
 import com.epita.epitaelection.R
+import com.epita.epitaelection.View.CharacterChoice.SecondFragmentDirections
 import com.epita.epitaelection.databinding.GameFragmentBinding
 import kotlin.random.Random
 
@@ -114,6 +116,10 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         binding.achatButton.isEnabled = false
         binding.TakeParisButton.isEnabled = false
         binding.buttonBackHome.isEnabled = false
+
+        val action = GameFragmentDirections.actionGameFragmentToWinView(selectedPlayer)
+        findNavController().navigate(action)
+
     }
 
     private fun botInit() {
@@ -218,7 +224,6 @@ class GameFragment : Fragment(R.layout.game_fragment) {
         } else {
             gameTour()
         }
-
     }
 
     private fun achat(joueur: Joueur) {

@@ -32,5 +32,20 @@
         <argument
             android:name="character"
             app:argType="string" />
+        <action
+            android:id="@+id/action_gameFragment_to_winView"
+            app:destination="@id/winView" />
+    </fragment>
+    <fragment
+        android:id="@+id/winView"
+        android:name="com.epita.epitaelection.View.Game.winView"
+        android:label="win_view_fragment"
+        tools:layout="@layout/win_view_fragment" >
+        <action
+            android:id="@+id/action_winView_to_FirstFragment"
+            app:destination="@id/FirstFragment" />
+        <argument
+            android:name="winner"
+            app:argType="string" />
     </fragment>
 </navigation>
