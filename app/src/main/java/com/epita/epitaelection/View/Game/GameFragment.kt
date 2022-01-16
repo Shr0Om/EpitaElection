@@ -104,9 +104,8 @@ class GameFragment : Fragment(R.layout.game_fragment) {
             if (tour % 4 == 3) {
                 PlayerTurn()
             } else {
-                BotTurn(tour % 4)
+                BotTurn(tour)
             }
-            println(tour)
             tour++
         }
         tour = 0
@@ -464,6 +463,7 @@ class GameFragment : Fragment(R.layout.game_fragment) {
     private fun BotTurn(id: Int) {
         binding.gameStatus.text = playerBot[id].name + " joue"
         getMyDe()
+        ApplyDe(playerBot[id])
         println("sleep")
         Thread.sleep(2000)
         println("stop sleep")

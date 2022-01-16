@@ -13,9 +13,9 @@ public class Joueur {
 
     public Joueur(String name){
         this.name = name;
-        this.pv = 100;
+        this.pv = 20;
         this.vote = 0;
-        this.gold = 140;
+        this.gold = 20;
         this.imageSrc = 0;
     }
 
